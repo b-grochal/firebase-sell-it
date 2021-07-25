@@ -1,4 +1,4 @@
-const { admin, firestore, firebase } = require("../services/base");
+const { admin, firestore, firebase } = require("../util/base");
 
 exports.signUp = (req, res) => {
   const newUser = {
@@ -12,7 +12,7 @@ exports.signUp = (req, res) => {
 
   firebase
     .auth()
-    .createUserWithEmailAndPassword("vladimir@putin.com", "P@ssw0rd")
+    .createUserWithEmailAndPassword("robert@lewandowski.com", "P@ssw0rd")
     .then((userCredential) => {
       return res.status(200).json(userCredential);
     })

@@ -1,10 +1,10 @@
 const admin = require("firebase-admin");
 const firebase = require("firebase");
+const config = require("./config");
 
 admin.initializeApp();
-var firebaseConfig = {};
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(config);
 
 var auth = firebase.auth();
 auth.useEmulator("http://localhost:9099");
