@@ -7,7 +7,7 @@ const { signUp } = require("./handlers/users");
 const app = express();
 app.use(cors());
 
-app.get("/sign-up", signUp);
+app.post("/sign-up", signUp);
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
