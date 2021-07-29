@@ -61,3 +61,24 @@ exports.validateSignInData = (data) => {
     valid: Object.keys(errors).length === 0 ? true : false,
   };
 };
+
+exports.validateAdvertData = (data) => {
+  let errors = {};
+
+  if (isEmpty(data.name)) {
+    errors.name = "Name can't be empty";
+  }
+
+  if (isEmpty(data.descritpion)) {
+    errors.descritpion = "Descritpion can't be empty";
+  }
+
+  if (isEmpty(data.price)) {
+    errors.name = "Price can't be empty";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
