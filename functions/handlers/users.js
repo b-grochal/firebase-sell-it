@@ -1,7 +1,8 @@
 const { admin, firestore, firebase } = require("../util/base");
+const { validateSignUpData } = require("../util/validators");
 
 exports.signUp = (req, res) => {
-  const newUser = {
+  const newUserData = {
     firstName: req.body.firstName,
     familyName: req.body.familyName,
     phoneNumber: req.body.phoneNumber,
@@ -10,11 +11,25 @@ exports.signUp = (req, res) => {
     confirmPassword: req.body.confirmPassword,
   };
 
+  const { errors, valid } = validateSignUpData(newUserData);
+
+  if (!valid) {
+    return res.status(400).json(errors);
+  }
+
   firebase
     .auth()
-    .createUserWithEmailAndPassword("robert@lewandowski.com", "P@ssw0rd")
+    .createUserWithEmailAndPassword(newUserData.email, newUserData.password)
     .then((userCredential) => {
-      return res.status(200).json(userCredential);
+      return firestore.collection("users").doc(userCredential.user.uid).set({
+        firtsName: newUserData.firstName,
+        familyName: newUserData.familyName,
+        phoneNumber: newUserData.phoneNumber,
+        email: newUserData.email,
+      });
+    })
+    .then(() => {
+      return res.status(200);
     })
     .catch((error) => {
       return res.status(500).json(error);
