@@ -80,6 +80,31 @@ exports.getAdvert = (req, res) => {
     });
 };
 
+exports.updateAdvert = (req, res) => {
+  const updatedAdvertData = {
+    name: req.body.name,
+    descritpion: req.body.descritpion,
+    price: req.body.price,
+  };
+
+  const { errors, valid } = validateAdvertData(updatedAdvertData);
+
+  if (!valid) {
+    return res.status(400).json(errors);
+  }
+
+  firestore
+    .collection("adverts")
+    .doc(req.params.advertId)
+    .update(updatedAdvertData)
+    .then(() => {
+      return res.status(200).json({ message: "Advert updated successfully." });
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
+};
+
 exports.deleteAdvert = (req, res) => {
   const advert = firestore.collection("adverts").doc(req.params.advertId);
   advert
