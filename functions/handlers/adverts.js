@@ -29,3 +29,17 @@ exports.createAdvert = (req, res) => {
       return res.status(500).json(error);
     });
 };
+
+exports.deleteAdvert = (req, res) => {
+  const advert = firestore.collection("adverts").doc(req.params.advertId);
+  advert
+    .delete()
+    .then(() => {
+      return res
+        .status(200)
+        .json({ message: "Sign up completed successfully." });
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
+};
