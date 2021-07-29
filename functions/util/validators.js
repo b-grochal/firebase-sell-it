@@ -42,3 +42,22 @@ exports.validateSignUpData = (data) => {
     valid: Object.keys(errors).length === 0 ? true : false,
   };
 };
+
+exports.validateSignInData = (data) => {
+  let errors = {};
+
+  if (isEmpty(data.email)) {
+    errors.email = "Email can't be empty";
+  } else if (!isEmail(data.email)) {
+    errors.email = "Email must be a valid email address";
+  }
+
+  if (isEmpty(data.password)) {
+    errors.password = "Password can't be empty";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};

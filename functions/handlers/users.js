@@ -1,8 +1,11 @@
 const { admin, firestore, firebase } = require("../util/base");
-const { validateSignUpData } = require("../util/validators");
+const {
+  validateSignUpData,
+  validateSignInData,
+} = require("../util/validators");
 
 exports.signUp = (req, res) => {
-  const newUserData = {
+  const signUpData = {
     firstName: req.body.firstName,
     familyName: req.body.familyName,
     phoneNumber: req.body.phoneNumber,
@@ -11,7 +14,7 @@ exports.signUp = (req, res) => {
     confirmPassword: req.body.confirmPassword,
   };
 
-  const { errors, valid } = validateSignUpData(newUserData);
+  const { errors, valid } = validateSignUpData(signUpData);
 
   if (!valid) {
     return res.status(400).json(errors);
@@ -19,13 +22,13 @@ exports.signUp = (req, res) => {
 
   firebase
     .auth()
-    .createUserWithEmailAndPassword(newUserData.email, newUserData.password)
+    .createUserWithEmailAndPassword(signUpData.email, signUpData.password)
     .then((userCredential) => {
       return firestore.collection("users").doc(userCredential.user.uid).set({
-        firtsName: newUserData.firstName,
-        familyName: newUserData.familyName,
-        phoneNumber: newUserData.phoneNumber,
-        email: newUserData.email,
+        firtsName: signUpData.firstName,
+        familyName: signUpData.familyName,
+        phoneNumber: signUpData.phoneNumber,
+        email: signUpData.email,
       });
     })
     .then(() => {
@@ -36,7 +39,31 @@ exports.signUp = (req, res) => {
     .catch((error) => {
       return res.status(500).json(error);
     });
-  // await firestore.collection("users").add({
-  //   firstName: newUser.firstName,
-  // });
+};
+
+exports.signIn = (req, res) => {
+  const signInData = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  const { errors, valid } = validateSignInData(signInData);
+
+  if (!valid) {
+    return res.status(400).json(errors);
+  }
+
+  firebase.auth
+    .signInWithEmailAndPassword(signInData.email, signInData.password)
+    .then((userCredential) => {
+      return userCredential.user.getIdToken();
+    })
+    .then((token) => {
+      return res.status(200).json({
+        token: "token",
+      });
+    })
+    .catch((error) => {
+      return res.status(403).json(error);
+    });
 };
