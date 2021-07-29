@@ -30,13 +30,13 @@ exports.createAdvert = (req, res) => {
     });
 };
 
-exports.getScreams = (req, res) => {
+exports.getAdverts = (req, res) => {
   firestore
     .collection("adverts")
     .get()
-    .then((data) => {
+    .then((documents) => {
       let adverts = [];
-      data.forEach((document) => {
+      documents.forEach((document) => {
         adverts.push({
           advertId: document.id,
           name: document.data().name,
@@ -45,6 +45,35 @@ exports.getScreams = (req, res) => {
         });
       });
       return res.status(200).json(adverts);
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
+};
+
+exports.getAdvert = (req, res) => {
+  const advert = {};
+  firestore
+    .collection("adverts")
+    .doc(req.params.advertId)
+    .get()
+    .then((advertDocument) => {
+      advert.name = advertDocument.data().name;
+      advert.descritpion = advertDocument.data().descritpion;
+      advert.price = advertDocument.data().price;
+      return firestore
+        .collection("users")
+        .doc(advertDocument.data().userId)
+        .get();
+    })
+    .then((userDocument) => {
+      advert.user = {
+        firstName: userDocument.data().firstName,
+        familyName: userDocument.data().familyName,
+        phoneNumber: userDocument.data().phoneNumber,
+        email: userDocument.data().email,
+      };
+      return res.status(200).json(advert);
     })
     .catch((error) => {
       return res.status(500).json(error);
