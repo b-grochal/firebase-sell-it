@@ -30,6 +30,27 @@ exports.createAdvert = (req, res) => {
     });
 };
 
+exports.getScreams = (req, res) => {
+  firestore
+    .collection("adverts")
+    .get()
+    .then((data) => {
+      let adverts = [];
+      data.forEach((document) => {
+        adverts.push({
+          advertId: document.id,
+          name: document.data().name,
+          descritpion: document.data().descritpion,
+          price: document.data().price,
+        });
+      });
+      return res.status(200).json(adverts);
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
+};
+
 exports.deleteAdvert = (req, res) => {
   const advert = firestore.collection("adverts").doc(req.params.advertId);
   advert
