@@ -83,7 +83,7 @@ exports.getAdvert = (req, res) => {
 exports.updateAdvert = (req, res) => {
   const updatedAdvertData = {
     name: req.body.name,
-    descritpion: req.body.descritpion,
+    description: req.body.description,
     price: req.body.price,
   };
 
