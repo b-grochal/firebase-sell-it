@@ -4,7 +4,7 @@ const { validateAdvertData } = require("../util/validators");
 exports.createAdvert = (req, res) => {
   const newAdvertData = {
     name: req.body.name,
-    descritpion: req.body.descritpion,
+    description: req.body.description,
     price: req.body.price,
   };
 
@@ -18,7 +18,7 @@ exports.createAdvert = (req, res) => {
     .collection("adverts")
     .add({
       name: newAdvertData.name,
-      descritpion: newAdvertData.descritpion,
+      description: newAdvertData.description,
       price: newAdvertData.price,
       userId: req.userId,
     })

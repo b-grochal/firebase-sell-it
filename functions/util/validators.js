@@ -10,6 +10,11 @@ const isEmpty = (string) => {
   else return false;
 };
 
+const isPrice = (value) => {
+  if (value >= 0) return true;
+  else return false;
+};
+
 exports.validateSignUpData = (data) => {
   let errors = {};
 
@@ -69,11 +74,11 @@ exports.validateAdvertData = (data) => {
     errors.name = "Name can't be empty";
   }
 
-  if (isEmpty(data.descritpion)) {
-    errors.descritpion = "Descritpion can't be empty";
+  if (isEmpty(data.description)) {
+    errors.description = "Descritpion can't be empty";
   }
 
-  if (isEmpty(data.price)) {
+  if (!isPrice(data.price)) {
     errors.name = "Price can't be empty";
   }
 
