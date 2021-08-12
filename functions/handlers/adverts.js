@@ -110,9 +110,7 @@ exports.deleteAdvert = (req, res) => {
   advert
     .delete()
     .then(() => {
-      return res
-        .status(200)
-        .json({ message: "Sign up completed successfully." });
+      return res.status(200).json({ message: "Advert deleted successfully." });
     })
     .catch((error) => {
       return res.status(500).json(error);
