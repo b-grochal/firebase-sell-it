@@ -53,14 +53,15 @@ exports.signIn = (req, res) => {
     return res.status(400).json(errors);
   }
 
-  firebase.auth
+  firebase
+    .auth()
     .signInWithEmailAndPassword(signInData.email, signInData.password)
     .then((userCredential) => {
       return userCredential.user.getIdToken();
     })
     .then((token) => {
       return res.status(200).json({
-        token: "token",
+        token: token,
       });
     })
     .catch((error) => {

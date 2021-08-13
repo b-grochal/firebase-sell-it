@@ -10,6 +10,11 @@ const isEmpty = (string) => {
   else return false;
 };
 
+const isPrice = (value) => {
+  if (value >= 0) return true;
+  else return false;
+};
+
 exports.validateSignUpData = (data) => {
   let errors = {};
 
@@ -54,6 +59,27 @@ exports.validateSignInData = (data) => {
 
   if (isEmpty(data.password)) {
     errors.password = "Password can't be empty";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
+
+exports.validateAdvertData = (data) => {
+  let errors = {};
+
+  if (isEmpty(data.name)) {
+    errors.name = "Name can't be empty";
+  }
+
+  if (isEmpty(data.description)) {
+    errors.description = "Descritpion can't be empty";
+  }
+
+  if (!isPrice(data.price)) {
+    errors.name = "Price can't be empty";
   }
 
   return {
