@@ -40,10 +40,11 @@ exports.getAdverts = (req, res) => {
         adverts.push({
           advertId: document.id,
           name: document.data().name,
-          descritpion: document.data().descritpion,
+          description: document.data().description,
           price: document.data().price,
         });
       });
+      console.log(adverts);
       return res.status(200).json(adverts);
     })
     .catch((error) => {
