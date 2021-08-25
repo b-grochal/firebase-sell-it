@@ -60,7 +60,7 @@ exports.getAdvert = (req, res) => {
     .get()
     .then((advertDocument) => {
       advert.name = advertDocument.data().name;
-      advert.descritpion = advertDocument.data().descritpion;
+      advert.description = advertDocument.data().description;
       advert.price = advertDocument.data().price;
       return firestore
         .collection("users")
