@@ -63,6 +63,24 @@ exports.getAdvert = (req, res) => {
       advert.name = advertDocument.data().name;
       advert.description = advertDocument.data().description;
       advert.price = advertDocument.data().price;
+      return res.status(200).json(advert);
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
+};
+
+exports.getAdvertDetails = (req, res) => {
+  const advert = {};
+  firestore
+    .collection("adverts")
+    .doc(req.params.advertId)
+    .get()
+    .then((advertDocument) => {
+      advert.advertId = advertDocument.id;
+      advert.name = advertDocument.data().name;
+      advert.description = advertDocument.data().description;
+      advert.price = advertDocument.data().price;
       return firestore
         .collection("users")
         .doc(advertDocument.data().userId)

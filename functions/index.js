@@ -6,6 +6,7 @@ const { signUp, signIn } = require("./handlers/users");
 const {
   createAdvert,
   getAdvert,
+  getAdvertDetails,
   getAdverts,
   deleteAdvert,
   updateAdvert,
@@ -20,6 +21,7 @@ app.post("/sign-in", signIn);
 
 app.post("/adverts", auth, createAdvert);
 app.get("/adverts", getAdverts);
+app.get("/adverts/:advertId/details", getAdvertDetails);
 app.get("/adverts/:advertId", getAdvert);
 app.put("/adverts/:advertId", auth, updateAdvert);
 app.delete("/adverts/:advertId", auth, deleteAdvert);
