@@ -59,6 +59,7 @@ exports.getAdvert = (req, res) => {
     .doc(req.params.advertId)
     .get()
     .then((advertDocument) => {
+      advert.advertId = advertDocument.id;
       advert.name = advertDocument.data().name;
       advert.description = advertDocument.data().description;
       advert.price = advertDocument.data().price;
