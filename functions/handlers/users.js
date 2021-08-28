@@ -25,7 +25,7 @@ exports.signUp = (req, res) => {
     .createUserWithEmailAndPassword(signUpData.email, signUpData.password)
     .then((userCredential) => {
       return firestore.collection("users").doc(userCredential.user.uid).set({
-        firtsName: signUpData.firstName,
+        firstName: signUpData.firstName,
         familyName: signUpData.familyName,
         phoneNumber: signUpData.phoneNumber,
         email: signUpData.email,
