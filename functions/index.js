@@ -8,6 +8,7 @@ const {
   getAdvert,
   getAdvertDetails,
   getAdverts,
+  getUserAdverts,
   deleteAdvert,
   updateAdvert,
 } = require("./handlers/adverts");
@@ -21,6 +22,7 @@ app.post("/sign-in", signIn);
 
 app.post("/adverts", auth, createAdvert);
 app.get("/adverts", getAdverts);
+app.get("/adverts/my-adverts", auth, getUserAdverts);
 app.get("/adverts/:advertId/details", getAdvertDetails);
 app.get("/adverts/:advertId", getAdvert);
 app.put("/adverts/:advertId", auth, updateAdvert);
