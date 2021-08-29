@@ -52,6 +52,30 @@ exports.getAdverts = (req, res) => {
     });
 };
 
+exports.getUserAdverts = (req, res) => {
+  console.log(req.userId);
+  firestore
+    .collection("adverts")
+    .where("userId", "==", req.userId)
+    .get()
+    .then((documents) => {
+      let adverts = [];
+      documents.forEach((document) => {
+        adverts.push({
+          advertId: document.id,
+          name: document.data().name,
+          description: document.data().description,
+          price: document.data().price,
+        });
+      });
+      console.log(adverts);
+      return res.status(200).json(adverts);
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
+};
+
 exports.getAdvert = (req, res) => {
   const advert = {};
   firestore
